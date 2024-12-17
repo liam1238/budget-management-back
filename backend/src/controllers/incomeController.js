@@ -3,6 +3,19 @@ const supabase = require('../../config/supabase');
 exports.addIncome = async (req, res) => {
     const { amount, description, date } = req.body;
 
+    if (!amount || !description || !date) {
+        return res.status(400).json({ error: "Amount, description, and date are required!" });
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: "Amount must be a positive number!" });
+    }
+
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) {
+        return res.status(400).json({ error: "Invalid date format!" });
+    }
+
     const { data, error } = await supabase
         .from('incomes')
         .insert([{ amount, description, date }])
@@ -80,6 +93,19 @@ exports.getIncomeById = async (req, res) => {
 exports.updateIncome = async (req, res) => {
     const { id } = req.params;
     const { amount, description, date } = req.body;
+
+    if (!amount || !description || !date) {
+        return res.status(400).json({ error: "Amount, description, and date are required!" });
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: "Amount must be a positive number!" });
+    }
+
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) {
+        return res.status(400).json({ error: "Invalid date format!" });
+    }
 
     const { data, error } = await supabase
         .from('incomes')
