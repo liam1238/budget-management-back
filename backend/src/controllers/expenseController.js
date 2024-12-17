@@ -4,6 +4,19 @@ const supabase = require('../../config/supabase');
 exports.addExpense = async (req, res) => {
     const { amount, description, date } = req.body;
 
+    if (!amount || !description || !date) {
+        return res.status(400).json({ error: "Amount, description, and date are required!" });
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: "Amount must be a positive number!" });
+    }
+
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) {
+        return res.status(400).json({ error: "Invalid date format!" });
+    }
+
     const { data, error } = await supabase
         .from('expenses')
         .insert([{ amount, description, date }])
@@ -19,6 +32,7 @@ exports.addExpense = async (req, res) => {
         data: newExpense,  // Return the new expense with id
     });
 };
+
 
 // Get Expenses with limit + total count 
 exports.getExpenses = async (req, res) => {
@@ -84,6 +98,19 @@ exports.getExpenseById = async (req, res) => {
 exports.updateExpense = async (req, res) => {
     const { id } = req.params;
     const { amount, description, date } = req.body;
+
+    if (!amount || !description || !date) {
+        return res.status(400).json({ error: "Amount, description, and date are required!" });
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: "Amount must be a positive number!" });
+    }
+
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) {
+        return res.status(400).json({ error: "Invalid date format!" });
+    }
 
     const { data, error } = await supabase
         .from('expenses')
