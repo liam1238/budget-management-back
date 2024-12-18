@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-const routes = require('./routes'); // Import your API routes
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const routes = require("./routes"); // Import your API routes
 
 dotenv.config();
 
@@ -14,17 +14,17 @@ app.use(bodyParser.json()); // Parse JSON request bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 
 // Health check endpoint
-app.get('/health', (req, res) => {
-    res.status(200).json({ message: 'Server is running!' });
+app.get("/health", (req, res) => {
+  res.status(200).json({ message: "Server is running!" });
 });
 
 // API Routes
-app.use('/api', routes); // All API endpoints will be prefixed with /api
+app.use("/api", routes); // All API endpoints will be prefixed with /api
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
 // Export the app
